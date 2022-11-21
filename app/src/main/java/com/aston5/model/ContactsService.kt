@@ -33,6 +33,14 @@ class ContactsService {
         }
     }
 
+    fun updateContact(newContact : Contact) {
+        val indexToUpdate: Int = contacts.indexOfFirst { it.id == newContact.id }
+        if (indexToUpdate != -1) {
+            contacts[indexToUpdate] = newContact
+            notifyChanges()
+        }
+    }
+
     fun addListener(listener: ContactsListener) {
         listeners.add(listener)
         listener.invoke(contacts)

@@ -15,17 +15,10 @@ import com.aston5.model.ContactsService
 class PersonItem : Fragment() {
     lateinit var binding: FragmentPersonItemBinding
 
-    private lateinit var viewModel: MainViewModel
     private lateinit var adapter: ContactAdapter
 
     private val contactsService: ContactsService
         get() = (context?.applicationContext as App).contactsService
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-    }
 
     override fun onDestroy() {
         super.onDestroy()

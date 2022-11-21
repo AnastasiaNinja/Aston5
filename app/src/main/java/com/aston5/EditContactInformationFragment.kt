@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.aston5.databinding.FragmentEditContactInformationBinding
 import com.aston5.model.Contact
 import com.aston5.model.ContactsService
+import com.bumptech.glide.Glide
 
 
 class EditContactInformationFragment : Fragment() {
@@ -26,9 +29,31 @@ class EditContactInformationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentEditContactInformationBinding.inflate(inflater)
-        binding.nameD.text = contact.name
-        binding.surnameD.text = contact.surname
-        binding.numberD.text = contact.number.toString()
+        binding.nameD.setText(contact.name, TextView.BufferType.EDITABLE)
+        binding.surnameD.setText(contact.surname)
+        binding.numberD.setText(contact.number.toString())
+        binding.photoD.drawable
+        if(contact.image.isNotBlank()) {
+            Glide.with(binding.photoD.context)
+                .load(contact.image)
+                .circleCrop()
+                .placeholder(R.drawable.ic_contact_avatar)
+                .error(R.drawable.ic_contact_avatar)
+                .into(binding.photoD)
+        } else {
+            binding.photoD.setImageResource(R.drawable.ic_contact_avatar)
+        }
+
+        binding.button.setOnClickListener {
+            val newContact = Contact(
+                contact.id,
+                binding.nameD.text.toString(),
+                binding.surnameD.text.toString(),
+                binding.numberD.text.toString().toLong(), contact.image
+            )
+            contactsService.updateContact(newContact)
+            activity?.supportFragmentManager?.popBackStack()
+        }
         return binding.root
     }
 
