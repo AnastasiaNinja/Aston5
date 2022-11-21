@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
@@ -17,11 +18,12 @@ class EditContactInformationFragment : Fragment() {
     lateinit var binding: FragmentEditContactInformationBinding
 
     private lateinit var viewModel: MainViewModel
-    private lateinit var adapter: ContactAdapter
-    private lateinit var newArrayList: ArrayList<Contact>
 
     private val contactsService: ContactsService
         get() = (context?.applicationContext as App).contactsService
+
+    private val contact : Contact
+        get() = requireArguments().getParcelable<Contact>(ARG_CONTACT) as Contact
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,11 +35,13 @@ class EditContactInformationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEditContactInformationBinding.inflate(inflater)
+        binding.nameD.text = contact.name
+        binding.surnameD.text = contact.surname
+        binding.numberD.text = contact.number.toString()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
 
     }
 
@@ -45,9 +49,15 @@ class EditContactInformationFragment : Fragment() {
 
     companion object {
 
-        @JvmStatic
-        fun newInstance() = EditContactInformationFragment() }
+        const val ARG_CONTACT = "ARG_CONTACT"
 
+        @JvmStatic
+        fun newInstance(contact: Contact): EditContactInformationFragment {
+            val fragment = EditContactInformationFragment()
+            fragment.arguments = bundleOf(ARG_CONTACT to contact)
+            return fragment
+        }
+    }
 
 
 }

@@ -1,11 +1,14 @@
 package com.aston5
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView.RecyclerListener
+import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +16,7 @@ import com.aston5.databinding.FragmentPersonItemBinding
 import com.aston5.model.Contact
 import com.aston5.model.ContactsListener
 import com.aston5.model.ContactsService
+import kotlin.contracts.contract
 
 
 class PersonItem : Fragment() {
@@ -53,6 +57,7 @@ class PersonItem : Fragment() {
     ): View {
         binding = FragmentPersonItemBinding.inflate(inflater)
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,15 +67,9 @@ class PersonItem : Fragment() {
         binding.recyclerView.layoutManager = layoutManager
 
         binding.recyclerView.adapter = adapter
-
         contactsService.addListener(contactsListener)
 
-        adapter.onItemClick = {
-            val intent = Intent(context, EditContactInformationFragment::class.java)
-            intent.putExtra("contact", it)
-            startActivity(intent)
 
-        }
     }
 
 

@@ -1,21 +1,27 @@
 package com.aston5
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aston5.databinding.ContactItemBinding
 import com.aston5.model.Contact
 import com.bumptech.glide.Glide
+import kotlin.math.E
 
-class ContactAdapter: RecyclerView.Adapter<ContactAdapter.ContactHolder>() {
-
-    var onItemClick : ((Contact) -> Unit)? = null
+class ContactAdapter: RecyclerView.Adapter<ContactAdapter.ContactHolder>(), View.OnClickListener {
 
     var contacts: List<Contact> = emptyList()
     set(newValue) {
         field = newValue
         notifyDataSetChanged()
+    }
+
+    override fun onClick(v: View) {
     }
 
 
@@ -47,12 +53,24 @@ class ContactAdapter: RecyclerView.Adapter<ContactAdapter.ContactHolder>() {
 
     override fun onBindViewHolder(holder: ContactHolder, position: Int) {
         holder.bind(contacts[position])
-
-        holder.itemView.setOnClickListener {
-            onItemClick?.invoke(contacts[position])
+        holder.itemView.setOnClickListener { view ->
+            val activity: AppCompatActivity = view.context as AppCompatActivity
+            val fragment = EditContactInformationFragment()
+            val bundle = Bundle()
+            bundle.putParcelable(
+                EditContactInformationFragment.ARG_CONTACT,
+                contacts[holder.bindingAdapterPosition]
+            )
+            fragment.arguments = bundle
+            activity.supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container_view, fragment)
+                .addToBackStack(null)
+                .commit()
         }
     }
 
     override fun getItemCount(): Int = contacts.size
+
+
 
 }
