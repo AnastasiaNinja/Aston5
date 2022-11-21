@@ -59,10 +59,13 @@ class ContactAdapter: RecyclerView.Adapter<ContactAdapter.ContactHolder>(), View
                 contacts[holder.bindingAdapterPosition]
             )
             fragment.arguments = bundle
-            activity.supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_view, fragment)
-                .addToBackStack(null)
-                .commit()
+            var id = R.id.fragment_container_view
+            if (view.context.isTablet()) {
+                id = R.id.fragment_edit_container_view
+            }
+            val transaction = activity.supportFragmentManager.beginTransaction()
+                .replace(id, fragment)
+                .addToBackStack(null).commit()
         }
     }
 

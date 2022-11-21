@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <androidx.fragment.app.FragmentContainerView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_container_view"
+        tools:context=".MainActivity"
+        android:name="com.aston5.PersonItem"
+        tools:layout="@layout/fragment_person_item">
+
+
+    </androidx.fragment.app.FragmentContainerView>
+
+    <androidx.fragment.app.FragmentContainerView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_edit_container_view"
+        tools:context=".MainActivity"
+        android:name="com.aston5.PersonItem"
+        tools:layout="@layout/fragment_person_item">
+
+
+    </androidx.fragment.app.FragmentContainerView>
+</LinearLayout>
+
+
+
+
+
+
+
+
+

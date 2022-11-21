@@ -52,7 +52,9 @@ class EditContactInformationFragment : Fragment() {
                 binding.numberD.text.toString().toLong(), contact.image
             )
             contactsService.updateContact(newContact)
-            activity?.supportFragmentManager?.popBackStack()
+            if(!context?.isTablet()!!) {
+                activity?.supportFragmentManager?.popBackStack()
+            }
         }
         return binding.root
     }

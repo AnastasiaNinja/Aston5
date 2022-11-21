@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aston5.databinding.FragmentPersonItemBinding
 import com.aston5.model.ContactsListener
@@ -46,8 +45,8 @@ class PersonItem : Fragment() {
 
         binding.recyclerView.adapter = adapter
         contactsService.addListener(contactsListener)
-    }
 
+    }
 
     companion object {
         @JvmStatic
