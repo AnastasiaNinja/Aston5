@@ -7,14 +7,14 @@ data class Contact(
     val id: Long,
     val name: String,
     val surname: String,
-    val number: Int,
+    val number: Long,
     val image: String
     ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readInt(),
+        parcel.readLong(),
         parcel.readString()!!
     ) {
     }
@@ -23,7 +23,7 @@ data class Contact(
         parcel.writeLong(id)
         parcel.writeString(name)
         parcel.writeString(surname)
-        parcel.writeInt(number)
+        parcel.writeLong(number)
         parcel.writeString(image)
     }
 

@@ -16,7 +16,7 @@ class ContactsService {
             id = it.toLong(),
             name = faker.name().firstName(),
             surname = faker.name().lastName(),
-            number = faker.number().randomDigit(),
+            number = faker.number().randomNumber(6, true),
             image = IMAGES[it % IMAGES.size]
         ) }.toMutableList()
     }

@@ -5,13 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aston5.databinding.ContactItemBinding
 import com.aston5.model.Contact
 import com.bumptech.glide.Glide
-import kotlin.math.E
 
 class ContactAdapter: RecyclerView.Adapter<ContactAdapter.ContactHolder>(), View.OnClickListener {
 
