@@ -1,22 +1,29 @@
 package com.aston5
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filterable
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.aston5.databinding.ContactItemBinding
 import com.aston5.model.Contact
 import com.bumptech.glide.Glide
+import java.nio.file.DirectoryStream.Filter
 
-class ContactAdapter: RecyclerView.Adapter<ContactAdapter.ContactHolder>(), View.OnClickListener {
+class ContactAdapter: RecyclerView.Adapter<ContactAdapter.ContactHolder>(), View.OnClickListener, Filterable {
 
     var contacts: List<Contact> = emptyList()
-    set(newValue) {
-        field = newValue
-        notifyDataSetChanged()
-    }
+        set(newValue) {
+            field = newValue
+            filteredContacts = newValue
+            notifyDataSetChanged()
+        }
+    private var filteredContacts: List<Contact> = emptyList()
+
 
     override fun onClick(v: View) {
     }
@@ -26,6 +33,8 @@ class ContactAdapter: RecyclerView.Adapter<ContactAdapter.ContactHolder>(), View
     class ContactHolder(item : View): RecyclerView.ViewHolder(item) {
 
         val binding = ContactItemBinding.bind(item)
+
+
         fun bind(contact: Contact) = with(binding){
             contactName.text = contact.name
             surName.text = contact.surname
@@ -49,28 +58,60 @@ class ContactAdapter: RecyclerView.Adapter<ContactAdapter.ContactHolder>(), View
     }
 
     override fun onBindViewHolder(holder: ContactHolder, position: Int) {
-        holder.bind(contacts[position])
+        holder.bind(filteredContacts[position])
         holder.itemView.setOnClickListener { view ->
             val activity: AppCompatActivity = view.context as AppCompatActivity
             val fragment = EditContactInformationFragment()
             val bundle = Bundle()
             bundle.putParcelable(
                 EditContactInformationFragment.ARG_CONTACT,
-                contacts[holder.bindingAdapterPosition]
+                filteredContacts[holder.bindingAdapterPosition]
             )
             fragment.arguments = bundle
             var id = R.id.fragment_container_view
             if (view.context.isTablet()) {
                 id = R.id.fragment_edit_container_view
             }
-            val transaction = activity.supportFragmentManager.beginTransaction()
+            activity.supportFragmentManager.beginTransaction()
                 .replace(id, fragment)
                 .addToBackStack(null).commit()
         }
     }
 
-    override fun getItemCount(): Int = contacts.size
+    override fun getItemCount(): Int = filteredContacts.size
 
+
+    override fun getFilter(): android.widget.Filter {
+        return object: android.widget.Filter(){
+            override fun performFiltering(charsequence: CharSequence?): FilterResults {
+
+                val filterResults = FilterResults()
+                val ongoingFilter: List<Contact>
+                if(charsequence == null || charsequence.length < 0){
+                    ongoingFilter = contacts
+                } else {
+                    val searchChr = charsequence.toString().lowercase()
+                    ongoingFilter = mutableListOf()
+                    for(item in contacts) {
+                        if(item.name.lowercase().contains(searchChr) || item.surname.lowercase().contains(searchChr)) {
+                            ongoingFilter.add(item)
+                        }
+                    }
+
+                }
+                filterResults.count = ongoingFilter.size
+                filterResults.values = ongoingFilter
+               return filterResults
+            }
+
+            override fun publishResults(p0: CharSequence?, filterResults: FilterResults?) {
+
+                filteredContacts = filterResults!!.values as ArrayList<Contact>
+                notifyDataSetChanged()
+            }
+
+        }
+    }
 
 
 }

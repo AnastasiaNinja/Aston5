@@ -1,13 +1,17 @@
 package com.aston5
 
+import android.app.Activity
+import android.app.SearchManager
+import android.content.ComponentName
+import android.content.Context
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
+import android.view.Menu
+import androidx.appcompat.widget.SearchView
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import com.aston5.databinding.ActivityMainBinding
-import com.aston5.model.Contact
-import com.aston5.model.ContactsService
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -23,6 +27,7 @@ class MainActivity : AppCompatActivity() {
             this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         }
         openFrag(PersonItem.newInstance(), R.id.fragment_container_view)
+
     }
 
     private fun openFrag(f: Fragment, idHolder: Int) {

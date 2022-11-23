@@ -1,9 +1,11 @@
 package com.aston5
 
+import android.app.Activity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
+import android.widget.SearchView.OnQueryTextListener
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aston5.databinding.FragmentPersonItemBinding
@@ -34,6 +36,7 @@ class PersonItem : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPersonItemBinding.inflate(inflater)
+
         return binding.root
     }
 
@@ -44,8 +47,28 @@ class PersonItem : Fragment() {
         binding.recyclerView.layoutManager = layoutManager
 
         binding.recyclerView.adapter = adapter
-        contactsService.addListener(contactsListener)
 
+
+        contactsService.addListener(contactsListener)
+        setSearchListener(binding.search!!)
+    }
+
+    fun setSearchListener(search: SearchView) {
+        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(filterString: String?): Boolean {
+                binding.search!!.clearFocus()
+                adapter.filter.filter(filterString)
+                return true
+            }
+
+            override fun onQueryTextChange(filterString: String?): Boolean {
+                adapter.filter.filter(filterString)
+                return true
+            }
+
+        })
+
+        return
     }
 
     companion object {
