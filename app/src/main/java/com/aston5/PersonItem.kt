@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.SearchView.OnQueryTextListener
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aston5.databinding.FragmentPersonItemBinding
 import com.aston5.model.ContactsListener
@@ -48,10 +50,19 @@ class PersonItem : Fragment() {
 
         binding.recyclerView.adapter = adapter
 
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(binding.recyclerView.context, DividerItemDecoration.VERTICAL))
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(binding.recyclerView.context, DividerItemDecoration.HORIZONTAL))
 
         contactsService.addListener(contactsListener)
         setSearchListener(binding.search!!)
+
+        contactsService.removeListener(contactsListener)
+
+
     }
+
+
+
 
     fun setSearchListener(search: SearchView) {
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener{

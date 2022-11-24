@@ -1,16 +1,22 @@
 package com.aston5
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemLongClickListener
 import android.widget.Filterable
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.adapters.ViewBindingAdapter.setOnLongClickListener
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.aston5.databinding.ContactItemBinding
 import com.aston5.model.Contact
+import com.aston5.model.ContactsService
 import com.bumptech.glide.Glide
 import java.nio.file.DirectoryStream.Filter
 
@@ -76,6 +82,7 @@ class ContactAdapter: RecyclerView.Adapter<ContactAdapter.ContactHolder>(), View
                 .replace(id, fragment)
                 .addToBackStack(null).commit()
         }
+
     }
 
     override fun getItemCount(): Int = filteredContacts.size
@@ -115,3 +122,5 @@ class ContactAdapter: RecyclerView.Adapter<ContactAdapter.ContactHolder>(), View
 
 
 }
+
+
